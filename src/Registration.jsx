@@ -5,7 +5,7 @@
 import { useForm } from "react-hook-form";
 // import { LoginSchema } from "@/utils/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { athleteSchema } from "./schema";
+import { athleteSchema, gurdianSchema } from "./schema";
 import { useEffect } from "react";
 
 // {
@@ -23,20 +23,36 @@ const Registration = () => {
     formState: { isSubmitSuccessful, errors },
   } = useForm({
     resolver: yupResolver(athleteSchema),
-    defaultValues: { email: "", password: "" },
   });
 
-  const submithandler = async (data) => {
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    reset: reset2,
+    formState: { isSubmitSuccessful: isSubmitSuccessful2, errors: errors2 },
+  } = useForm({
+    resolver: yupResolver(gurdianSchema),
+  });
+
+  const submithandlerreq = async (data) => {
     window.location.href = "mailto:temi236topemicheal@gmail.com";
     alert("hey");
     console.log(data);
   };
 
+  const submithandlerguard = async (data) => {
+    window.location.href = "mailto:temi236topemicheal@gmail.com";
+    alert("hey");
+    console.log(data);
+  };
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
     }
-  }, [reset, isSubmitSuccessful]);
+    if (isSubmitSuccessful2) {
+      reset2();
+    }
+  }, [reset, isSubmitSuccessful, reset2, isSubmitSuccessful2]);
   return (
     <div>
       {/* className={openNav ? "open" : "close"} */}
@@ -73,7 +89,7 @@ const Registration = () => {
               </div>
 
               <form
-                onSubmit={handleSubmit(submithandler)}
+                onSubmit={handleSubmit(submithandlerreq)}
                 className="flex w-full flex-col justify-center px-6 py-6 sm:px-10 mt-16"
               >
                 <div className="flex flex-col gap-y-5 w-full ">
@@ -146,7 +162,7 @@ const Registration = () => {
                       <input
                         type="file"
                         id="passportphotograph"
-                        className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 file:bg-green-700 border-black bg-transparent !appearance-none autofill:!bg-transparent "
+                        className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2  border-black bg-transparent !appearance-none autofill:!bg-transparent "
                         placeholder="Enter your lastname.."
                         {...register("passport")}
                       />
@@ -165,7 +181,7 @@ const Registration = () => {
                         valid means of identification
                       </label>
                       <input
-                        type="text"
+                        type="file"
                         id="text"
                         className="mt-2 px-4 py-2 focus:border-none focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
                         placeholder="Enter your valid means of identification.."
@@ -226,7 +242,7 @@ const Registration = () => {
                       <input
                         type="file"
                         id="fitnessReport"
-                        className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 file:bg-green-700 border-black bg-transparent !appearance-none autofill:!bg-transparent "
+                        className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2  border-black bg-transparent !appearance-none autofill:!bg-transparent "
                         {...register("fitnessReport")}
                       />
                       <p className="mt-2 text-[0.7rem] font-bold text-red-500">
@@ -277,127 +293,6 @@ const Registration = () => {
                   </div>
                 </div>
 
-                <div className=" container px-10 md:py-2 mx-auto mt-10 -m-2 mb-10">
-                  <span className="lg:text-3xl text-green-950 min-[100px]:text-2xl uppercase  ">
-                    agent or guardian details
-                  </span>
-                </div>
-
-                <div className="flex w-full flex-col lg:flex-row gap-x-3">
-                  <div className=" w-full lg:w-1/2 flex flex-col">
-                    <label
-                      htmlFor="gfirstname"
-                      className="text-base font-semibold capitalize"
-                    >
-                      firstname
-                    </label>
-                    <input
-                      type="text"
-                      id="gfirstname"
-                      className="mt-2 px-4 py-2 focus:border-none focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
-                      placeholder="Enter your firstname.."
-                      {...register("guardianfirstname")}
-                    />
-                    <p className="mt-2 text-[0.7rem] font-bold text-red-500">
-                      {errors.guardianfirstname?.message}
-                    </p>
-                  </div>
-                  <div className=" w-full lg:w-1/2 flex flex-col">
-                    <label
-                      htmlFor="glastname"
-                      className="text-base font-semibold capitalize"
-                    >
-                      lastname
-                    </label>
-                    <input
-                      type="text"
-                      id="glastname"
-                      className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
-                      placeholder="Enter guardians lastname.."
-                      {...register("guardianlastname")}
-                    />
-                    <p className="mt-2 text-[0.7rem] font-bold text-red-500">
-                      {errors.guardianlastname?.message}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex w-full flex-col lg:flex-row gap-x-3">
-                  <div className=" w-full lg:w-1/2 flex flex-col">
-                    <label
-                      htmlFor="contactaddress"
-                      className="text-base font-semibold capitalize"
-                    >
-                      contactaddress
-                    </label>
-                    <input
-                      type="text"
-                      id="contactaddress"
-                      className="mt-2 px-4 py-2 focus:border-none focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
-                      placeholder="Enter your firstname.."
-                      {...register("contactAddress")}
-                    />
-                    <p className="mt-2 text-[0.7rem] font-bold text-red-500">
-                      {errors.contactAddress?.message}
-                    </p>
-                  </div>
-                  <div className=" w-full lg:w-1/2 flex flex-col">
-                    <label
-                      htmlFor="contactNumber"
-                      className="text-base font-semibold capitalize"
-                    >
-                      contactNumber
-                    </label>
-                    <input
-                      type="text"
-                      id="contactNumber"
-                      className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
-                      placeholder="Enter contactNumber.."
-                      {...register("contactNumber")}
-                    />
-                    <p className="mt-2 text-[0.7rem] font-bold text-red-500">
-                      {errors.contactNumber?.message}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex w-full flex-col lg:flex-row gap-x-3">
-                  <div className=" w-full lg:w-1/2 flex flex-col">
-                    <label
-                      htmlFor="guardianEmail"
-                      className="text-base font-semibold capitalize"
-                    >
-                      firstname
-                    </label>
-                    <input
-                      type="email"
-                      id="text"
-                      className="mt-2 px-4 py-2 focus:border-none focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
-                      placeholder="Enter guardian's Email.."
-                      {...register("guardianEmail")}
-                    />
-                    <p className="mt-2 text-[0.7rem] font-bold text-red-500">
-                      {errors.guardianEmail?.message}
-                    </p>
-                  </div>
-                  <div className=" w-full lg:w-1/2 flex flex-col">
-                    <label
-                      htmlFor="consent"
-                      className="text-base font-semibold capitalize"
-                    >
-                      consent
-                    </label>
-                    <input
-                      type="text"
-                      id="text"
-                      className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
-                      placeholder="Enter your lastname.."
-                      {...register("consent")}
-                    />
-                    <p className="mt-2 text-[0.7rem] font-bold text-red-500">
-                      {errors.consent?.message}
-                    </p>
-                  </div>
-                </div>
-
                 <div className="w-full">
                   <button
                     type="submit"
@@ -409,7 +304,144 @@ const Registration = () => {
               </form>
             </section>
           </div>
-          <div></div>
+          {/* second form */}
+          <section
+            className="lg:px-16 lg:flex  lg:flex-row sm:flex-col"
+            data-aos="fade-up"
+          >
+            <div className=" container px-10 md:py-2 mx-auto mt-10 -m-2 mb-10">
+              <span className="lg:text-3xl text-green-950 min-[100px]:text-2xl uppercase  ">
+                agent or guardian details
+              </span>
+            </div>
+            <form
+              className="flex w-full flex-col justify-center px-6 py-6 sm:px-10 mt-16"
+              onSubmit={handleSubmit2(submithandlerguard)}
+            >
+              <div className="flex w-full flex-col lg:flex-row gap-x-3">
+                <div className=" w-full lg:w-1/2 flex flex-col">
+                  <label
+                    htmlFor="gfirstname"
+                    className="text-base font-semibold capitalize"
+                  >
+                    firstname
+                  </label>
+                  <input
+                    type="text"
+                    id="gfirstname"
+                    className="mt-2 px-4 py-2 focus:border-none focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
+                    placeholder="Enter your firstname.."
+                    {...register2("guardianfirstname")}
+                  />
+                  <p className="mt-2 text-[0.7rem] font-bold text-red-500">
+                    {errors2.guardianfirstname?.message}
+                  </p>
+                </div>
+                <div className=" w-full lg:w-1/2 flex flex-col">
+                  <label
+                    htmlFor="glastname"
+                    className="text-base font-semibold capitalize"
+                  >
+                    lastname
+                  </label>
+                  <input
+                    type="text"
+                    id="glastname"
+                    className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
+                    placeholder="Enter guardians lastname.."
+                    {...register2("guardianlastname")}
+                  />
+                  <p className="mt-2 text-[0.7rem] font-bold text-red-500">
+                    {errors2.guardianlastname?.message}
+                  </p>
+                </div>
+              </div>
+              <div className="flex w-full flex-col lg:flex-row gap-x-3">
+                <div className=" w-full lg:w-1/2 flex flex-col">
+                  <label
+                    htmlFor="contactaddress"
+                    className="text-base font-semibold capitalize"
+                  >
+                    contactaddress
+                  </label>
+                  <input
+                    type="text"
+                    id="contactaddress"
+                    className="mt-2 px-4 py-2 focus:border-none focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
+                    placeholder="Enter your contact address.."
+                    {...register2("contactAddress")}
+                  />
+                  <p className="mt-2 text-[0.7rem] font-bold text-red-500">
+                    {errors2.contactAddress?.message}
+                  </p>
+                </div>
+                <div className=" w-full lg:w-1/2 flex flex-col">
+                  <label
+                    htmlFor="contactNumber"
+                    className="text-base font-semibold capitalize"
+                  >
+                    contactNumber
+                  </label>
+                  <input
+                    type="text"
+                    id="contactNumber"
+                    className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
+                    placeholder="Enter contactNumber.."
+                    {...register2("contactNumber")}
+                  />
+                  <p className="mt-2 text-[0.7rem] font-bold text-red-500">
+                    {errors2.contactNumber?.message}
+                  </p>
+                </div>
+              </div>
+              <div className="flex w-full flex-col lg:flex-row gap-x-3">
+                <div className=" w-full lg:w-1/2 flex flex-col">
+                  <label
+                    htmlFor="guardianEmail"
+                    className="text-base font-semibold capitalize"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="text"
+                    className="mt-2 px-4 py-2 focus:border-none focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
+                    placeholder="Enter guardian's Email.."
+                    {...register2("guardianEmail")}
+                  />
+                  <p className="mt-2 text-[0.7rem] font-bold text-red-500">
+                    {errors2.guardianEmail?.message}
+                  </p>
+                </div>
+                <div className=" w-full lg:w-1/2 flex flex-col">
+                  <label
+                    htmlFor="consent"
+                    className="text-base font-semibold capitalize"
+                  >
+                    consent Letter
+                  </label>
+                  <input
+                    type="file"
+                    id="text"
+                    className="mt-2 px-4 py-2 focus:border-b-2 focus:outline-none font-light placeholder:text-green-800 placeholder:text-[10px] border-b-2 border-black bg-transparent !appearance-none autofill:!bg-transparent "
+                    placeholder="Enter your lastname.."
+                    {...register2("consentletter")}
+                  />
+                  <p className="mt-2 text-[0.7rem] font-bold text-red-500">
+                    {errors2.consentletter?.message}
+                  </p>
+                </div>
+              </div>
+              <div className="w-full">
+                <button
+                  type="submit"
+                  className="py-2 text-base font-semibold capitalize bg-transparent border-b-2 border-black w-20"
+                >
+                  submit
+                </button>
+              </div>
+            </form>
+          </section>
         </div>
       </div>
     </div>
